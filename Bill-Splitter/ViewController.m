@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 
-@interface ViewController ()
+@interface ViewController () <UITextFieldDelegate>
 
 @end
 
@@ -16,12 +16,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.amountLabel.delegate = self;
+    [self.amountLabel setKeyboardType:UIKeyboardTypeDecimalPad];
     // Do any additional setup after loading the view, typically from a nib.
 }
 
 
 - (IBAction)calculateBill:(id)sender {
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setNumberStyle:NSNumberFormatterCurrencyISOCodeStyle];
+    float people = self.numberOfPeople.value;
+    float price = [self.amountLabel.text floatValue];
+    float pricePerPerson = price/people;
+    NSString *costPP = [formatter stringFromNumber:[NSNumber numberWithFloat:pricePerPerson]];
+    self.pricePerPerson.text = [NSString stringWithFormat:@"%@",costPP];
 }
+
 
 
 
